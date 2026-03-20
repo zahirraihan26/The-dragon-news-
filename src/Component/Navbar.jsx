@@ -34,13 +34,18 @@ const Navbar = () => {
                 <NavLink to="/about" className="hover:text-primary transition-colors cursor-pointer">About</NavLink>
                 <NavLink to="/career" className="hover:text-primary transition-colors cursor-pointer">Career</NavLink>
             </div>
-            <div className="login-btn flex gap-4 items-center">
-                <img src={userimg} alt="User Avatar" className='w-10 h-10 rounded-full border-2 border-primary/40 shadow-[0_0_10px_rgba(6,182,212,0.3)]' />
-                {
-                    user ? <button onClick={handelLogout} className='btn-ai'>Logout</button> : <Link to='/auth/login' className='btn-ai'>Login</Link>
-                }
-
-            </div>
+                <div className='login flex gap-4 items-center'>
+                    {user ? (
+                        <>
+                            <Link to="/dashboard" className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/50 overflow-hidden shadow-[0_0_10px_rgba(6,182,212,0.3)] hover:shadow-[0_0_20px_rgba(6,182,212,0.6)] hover:border-primary transition-all cursor-pointer group">
+                                {user.photoURL ? <img src={user.photoURL} alt="User" className="group-hover:scale-110 transition-transform" /> : <span className="text-primary font-bold group-hover:scale-110 transition-transform">{user.email?.charAt(0).toUpperCase()}</span>}
+                            </Link>
+                            <button onClick={handelLogout} className='btn-ai text-sm px-6 py-2'>Disconnect</button>
+                        </>
+                    ) : ( 
+                        <Link to='/auth/login' className='btn-ai text-sm px-8 py-2'>Initialize Login</Link>
+                    )}
+                </div>
         </div>
     );
 };

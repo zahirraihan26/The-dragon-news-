@@ -9,6 +9,7 @@ import NewsDetails from "../Pages/NewsDetails";
 import ErrorPage from "../Pages/ErrorPage";
 import About from "../Pages/About";
 import Career from "../Pages/Career";
+import ProfileDashboard from "../Pages/ProfileDashboard";
 
 const router = createBrowserRouter(
     [
@@ -56,6 +57,10 @@ const router = createBrowserRouter(
          {
             path: '/career',
             element: <Career></Career>
+        },
+         {
+            path: '/dashboard',
+            element: <ProfileDashboard></ProfileDashboard>
         },
          {
             path: '/*',

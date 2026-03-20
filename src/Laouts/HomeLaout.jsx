@@ -12,6 +12,7 @@ import AIAudioBriefing from '../Component/Homelaout/AIAudioBriefing';
 import AITerminalLogs from '../Component/Homelaout/AITerminalLogs';
 import HorizontalCategories from '../Component/Homelaout/HorizontalCategories';
 import BackToTop from '../Component/BackToTop';
+import LiveStatsLayer from '../Component/Homelaout/LiveStatsLayer';
 
 const HomeLaout = () => {
     return (
@@ -42,6 +43,9 @@ const HomeLaout = () => {
                         <AIAudioBriefing />
                         <AITerminalLogs />
                     </div>
+
+                    {/* Dashboard Upper Layer - Live Stats */}
+                    <LiveStatsLayer />
 
                     {/* Horizontal Categories */}
                     <HorizontalCategories />

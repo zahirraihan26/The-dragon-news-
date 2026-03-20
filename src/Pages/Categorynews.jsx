@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useLoaderData, useParams } from 'react-router';
 import NewsCard from '../Component/NewsCard';
+import SkeletonLoader from '../Component/SkeletonLoader';
 
 const Categorynews = () => {
     const { id } = useParams()
     const data = useLoaderData()
     const [categoryNews, setcategoryNews] = useState([])
+    const [isFetching, setIsFetching] = useState(true);
     
     // Pagination states
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
 
     useEffect(() => {
+        setIsFetching(true);
         // "08" is "All News" in the API, or "0" fallback
         if (id === '08' || id == '0') {
             setcategoryNews(data)
@@ -30,6 +33,12 @@ const Categorynews = () => {
         // Reset to first page when category changes
         setCurrentPage(1);
 
+        // Simulate network/AI processing delay for premium UI feel
+        const timer = setTimeout(() => {
+            setIsFetching(false);
+        }, 1200);
+
+        return () => clearTimeout(timer);
     }, [data, id])
     
     // Pagination logic
@@ -56,13 +65,19 @@ const Categorynews = () => {
               )}
           </div>
           
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-            {
-                currentNews.map((news) => ( 
-                    <NewsCard key={news.id} news={news}></NewsCard>
-                ))
-            }
-          </div>
+          {isFetching ? (
+              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+                  {[1, 2, 3, 4, 5, 6].map((skel) => (
+                      <SkeletonLoader key={skel} />
+                  ))}
+              </div>
+          ) : (
+              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+                {currentNews.map((news) => ( 
+                    <NewsCard key={news._id} news={news}></NewsCard>
+                ))}
+              </div>
+          )}
           
           {/* Pagination Controls */}
           {totalPages > 1 && (

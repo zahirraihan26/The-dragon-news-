@@ -1,49 +1,53 @@
-import React from "react";
-import { Link } from "react-router";
+import React, { useContext } from 'react';
+import { FaEye, FaShareAlt, FaStar, FaRegStar } from 'react-icons/fa';
+import { Link } from 'react-router';
+import { BookmarkContext } from '../Provider/BookmarkProvider';
 
-import { FaEye, FaStar, FaShareAlt } from "react-icons/fa";
-import { IoMdBookmark } from "react-icons/io";
+function NewsCard({ news }) {
+    const { _id, author, title, thumbnail_url, details, rating, total_view } = news;
+    const { toggleBookmark, isBookmarked } = useContext(BookmarkContext);
+    const bookmarked = isBookmarked(_id);
 
-const NewsCard = ({ news }) => {
-  const {
-    _id,
-    title,
-    author,
-    details,
-    thumbnail_url,
-    rating,
-    total_view,
-  } = news;
+    // AI simulated analysis stat
+    const aiConfidence = Math.floor(Math.random() * (99 - 85 + 1)) + 85;
 
-  // Format the published date nicely
-  const date = new Date(author.published_date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+    // Helper functions for stars
+    const renderStars = (ratingValue) => {
+        const totalStars = 5;
+        const filledStars = Math.round(ratingValue);
+        return [...Array(totalStars)].map((_, i) => (
+            <span key={i} className={`text-sm ${i < filledStars ? 'text-primary drop-shadow-[0_0_5px_rgba(6,182,212,0.8)]' : 'text-gray-600'}`}>
+                {i < filledStars ? <FaStar /> : <FaRegStar />}
+            </span>
+        ));
+    };
 
-  return (
-    <div className="card glass-panel neon-border mb-6">
-      {/* Header */}
-      <div className="flex justify-between items-center p-4 border-b border-white/5">
-        <div className="flex items-center gap-3">
-          <div className="avatar">
-            <div className="w-12 h-12 rounded-full border-2 border-primary/50 shadow-[0_0_10px_rgba(6,182,212,0.3)]">
-              <img src={author.img} alt={author.name} className="rounded-full rounded-full" />
+    return (
+        <div className="glass-panel overflow-hidden flex flex-col group h-full">
+            {/* Author / Date Header */}
+            <div className="flex items-center p-3 border-b border-white/10 relative z-10">
+                <div className="w-10 h-10 rounded-full border border-primary/30 p-[2px] bg-black/40 shadow-[0_0_10px_rgba(6,182,212,0.2)]">
+                    <img src={author.img} alt={author.name} className="w-full h-full object-cover rounded-full" />
+                </div>
+                <div className="ml-3 flex-grow">
+                    <h3 className="font-semibold text-sm text-gray-200">{author.name || 'Anonymous Node'}</h3>
+                    <p className="text-xs text-primary/70 font-mono tracking-wider">{author.published_date ? new Date(author.published_date).toDateString() : 'SYNC ERROR'}</p>
+                </div>
+                <div className="flex gap-2">
+                    <button 
+                        onClick={(e) => { e.preventDefault(); toggleBookmark(news); }} 
+                        className={`btn btn-circle btn-sm btn-ghost border border-white/10 ${bookmarked ? 'text-secondary bg-secondary/10 shadow-[0_0_10px_rgba(139,92,246,0.6)]' : 'text-gray-400 hover:text-white hover:bg-white/10'} transition-all`}
+                        title={bookmarked ? "Unsave Data Stream" : "Save Data Stream"}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill={bookmarked ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor">
+                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                        </svg>
+                    </button>
+                    <button className="text-gray-400 hover:text-primary transition-colors p-2 rounded-full hover:bg-primary/10">
+                        <FaShareAlt size={14} />
+                    </button>
+                </div>
             </div>
-          </div>
-          <div>
-            <h2 className="font-semibold text-sm text-gray-200">{author.name}</h2>
-            <p className="text-xs text-gray-400">{date}</p>
-          </div>
-        </div>
-
-       <div className="flex gap-5">
-         <IoMdBookmark className="text-gray-400 hover:text-primary transition-colors cursor-pointer text-lg md:text-xl drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]"></IoMdBookmark>
-        <FaShareAlt className="text-gray-400 hover:text-primary transition-colors cursor-pointer text-lg md:text-xl drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]" />
-       </div>
-
-      </div>
 
       {/* Title */}
       <div className="px-5 pt-4 pb-2 text-justify">

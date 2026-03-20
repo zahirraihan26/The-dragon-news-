@@ -91,7 +91,7 @@ const NewsDetails = () => {
                                     <h1 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-6">
                                         {newsData.title}
                                     </h1>
-                                    
+
                                     <div className="flex items-center gap-4 border-b border-white/10 pb-6">
                                         <img src={newsData.author?.img} alt="Author" className="w-14 h-14 rounded-full border-2 border-primary/40 shadow-[0_0_15px_rgba(6,182,212,0.3)]" />
                                         <div>
@@ -118,13 +118,67 @@ const NewsDetails = () => {
                                 </div>
                                 
                                 {/* Nav Actions */}
-                                <div className="flex justify-between items-center mt-8">
+                                <div className="flex justify-between items-center mt-8 mb-12 border-b border-white/10 pb-10">
                                     <Link to="/" className="btn btn-outline border-white/20 text-white hover:bg-white/10 hover:border-white/40 rounded-full px-8 py-3 transition-all">
                                         &larr; Back to Dashboard
                                     </Link>
                                     <button className="btn-ai py-3 px-8 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.5)]">
                                         Share Datastream
                                     </button>
+                                </div>
+
+                                {/* AI Community Telemetry (Comments Section) */}
+                                <div className="mt-8 bg-black/40 p-8 rounded-2xl border border-white/5 shadow-inner">
+                                    <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                                        </svg>
+                                        Node Telemetry (Discussion)
+                                    </h3>
+                                    
+                                    <div className="space-y-6">
+                                        {/* Mock Comment */}
+                                        <div className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5 hover:border-secondary/30 transition-colors">
+                                            <div className="w-10 h-10 rounded-full bg-secondary/20 flex flex-shrink-0 items-center justify-center font-bold text-secondary text-sm border border-secondary/50">
+                                                NX
+                                            </div>
+                                            <div>
+                                                <div className="flex gap-2 items-center mb-1">
+                                                    <h5 className="font-bold text-gray-200">Sector Commander</h5>
+                                                    <span className="text-xs text-gray-500 font-mono">14m ago</span>
+                                                </div>
+                                                <p className="text-gray-400 text-sm">I cross-referenced this datastream with off-grid servers. The analysis holds up. Re-routing priority allocation now.</p>
+                                                <div className="flex gap-4 mt-2 text-xs text-gray-500 font-bold">
+                                                    <button className="hover:text-success transition-colors">ENDORSE (24)</button>
+                                                    <button className="hover:text-error transition-colors">FLAG</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Mock Comment */}
+                                        <div className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5 hover:border-primary/30 transition-colors">
+                                            <div className="w-10 h-10 rounded-full bg-primary/20 flex flex-shrink-0 items-center justify-center font-bold text-primary text-sm border border-primary/50">
+                                                Q3
+                                            </div>
+                                            <div>
+                                                <div className="flex gap-2 items-center mb-1">
+                                                    <h5 className="font-bold text-gray-200">Quantum Node 34</h5>
+                                                    <span className="text-xs text-gray-500 font-mono">2h ago</span>
+                                                </div>
+                                                <p className="text-gray-400 text-sm">There is a minor discrepancy in the probability vectors mentioned in paragraph 3. Applying patch algorithm to compensate.</p>
+                                                <div className="flex gap-4 mt-2 text-xs text-gray-500 font-bold">
+                                                    <button className="hover:text-success transition-colors">ENDORSE (191)</button>
+                                                    <button className="hover:text-error transition-colors">FLAG (2)</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Add Comment */}
+                                    <div className="mt-8 flex gap-4">
+                                        <input type="text" placeholder="Transmit your analysis to the network..." className="input w-full bg-black/40 border-white/10 text-white focus:border-secondary focus:outline-none" />
+                                        <button className="btn btn-secondary shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:shadow-[0_0_20px_rgba(139,92,246,0.6)]">Transmit</button>
+                                    </div>
                                 </div>
                             </div>
                         )}
