@@ -1,11 +1,12 @@
 import React from "react";
-
+import { Link } from "react-router";
 
 import { FaEye, FaStar, FaShareAlt } from "react-icons/fa";
 import { IoMdBookmark } from "react-icons/io";
 
 const NewsCard = ({ news }) => {
   const {
+    _id,
     title,
     author,
     details,
@@ -84,9 +85,9 @@ const NewsCard = ({ news }) => {
 
         <p className="text-sm text-gray-400 leading-relaxed mb-3">
           {details.slice(0, 150)}...
-          <span className="glow-text font-bold cursor-pointer ml-2">
+          <Link to={`/news/${_id}`} className="glow-text font-bold cursor-pointer ml-2 hover:text-secondary transition-colors">
             Read Full Article
-          </span>
+          </Link>
         </p>
       </div>
 

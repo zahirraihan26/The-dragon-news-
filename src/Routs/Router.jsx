@@ -5,6 +5,10 @@ import Categorynews from "../Pages/Categorynews";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import AuthLaout from "../Laouts/AuthLaout";
+import NewsDetails from "../Pages/NewsDetails";
+import ErrorPage from "../Pages/ErrorPage";
+import About from "../Pages/About";
+import Career from "../Pages/Career";
 
 const router = createBrowserRouter(
     [
@@ -42,12 +46,20 @@ const router = createBrowserRouter(
 
         },
          {
-            path: 'news',
-            element: <h2>news laout</h2>
+            path: '/news/:id',
+            element: <NewsDetails></NewsDetails>
+        },
+         {
+            path: '/about',
+            element: <About></About>
+        },
+         {
+            path: '/career',
+            element: <Career></Career>
         },
          {
             path: '/*',
-            element: <h2>Error 404</h2>
+            element: <ErrorPage></ErrorPage>
         },
     ])
 

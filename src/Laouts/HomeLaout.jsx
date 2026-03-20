@@ -1,13 +1,17 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import Header from '../Component/Header';
-import LatestNews from '../Component/LatestNews';
 import Navbar from '../Component/Navbar';
-import LeftAside from '../Component/Homelaout/LeftAside';
-import RightAsid from '../Component/Homelaout/RightAsid';
 import AIAssistant from '../Component/AIAssistant';
 import AIHero from '../Component/AIHero';
 import AIFooter from '../Component/AIFooter';
+
+// Dashboard Widgets
+import SystemStatus from '../Component/Homelaout/SystemStatus';
+import MarketTrends from '../Component/Homelaout/MarketTrends';
+import AIAudioBriefing from '../Component/Homelaout/AIAudioBriefing';
+import AITerminalLogs from '../Component/Homelaout/AITerminalLogs';
+import HorizontalCategories from '../Component/Homelaout/HorizontalCategories';
+import BackToTop from '../Component/BackToTop';
 
 const HomeLaout = () => {
     return (
@@ -17,32 +21,35 @@ const HomeLaout = () => {
             <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/15 blur-[120px] rounded-full pointer-events-none z-0"></div>
             
             <AIAssistant />
+            <BackToTop />
 
             <div className="relative z-10 w-full flex flex-col min-h-screen">
                 <header>
-                    <Header></Header>
-                    <section className='w-11/12 mx-auto my-3'>
-                        <LatestNews></LatestNews>
-                    </section>
-                    <nav className='w-11/12 mx-auto mt-5 mb-2 relative z-50'>
-                        <Navbar></Navbar>
+                    <nav className='w-full border-b border-white/5 bg-base-100/50 backdrop-blur-md sticky top-0 z-50 mb-4'>
+                        <div className="w-11/12 mx-auto pt-2">
+                           <Navbar></Navbar>
+                        </div>
                     </nav>
                 </header>
                 
                 <AIHero></AIHero>
 
-                <main className='w-11/12 mx-auto mt-6 mb-16 grid grid-cols-12 gap-8 flex-grow'>
-                    <aside className='col-span-3 sticky top-28 h-fit'>
-                        <LeftAside></LeftAside>
-                    </aside >
+                <main className='w-11/12 mx-auto mt-6 mb-16 flex flex-col gap-2 flex-grow'>
+                    {/* Top Dashboard Analytics Row */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                        <SystemStatus />
+                        <MarketTrends />
+                        <AIAudioBriefing />
+                        <AITerminalLogs />
+                    </div>
 
-                    <section className='Main col-span-6'>
+                    {/* Horizontal Categories */}
+                    <HorizontalCategories />
+
+                    {/* Main News Data Stream (Full Width Grid) */}
+                    <section className='w-full'>
                         <Outlet></Outlet>
                     </section>
-
-                    <aside className='col-span-3 sticky top-28 h-fit'>
-                        <RightAsid></RightAsid>
-                    </aside>
                 </main>
                 
                 <AIFooter></AIFooter>

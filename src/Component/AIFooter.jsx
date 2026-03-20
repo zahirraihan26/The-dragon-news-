@@ -2,7 +2,7 @@ import React from 'react';
 
 const AIFooter = () => {
     return (
-        <footer className="footer bg-[#050505] text-gray-300 p-10 border-t border-white/10 relative overflow-hidden mt-10">
+        <footer className="footer bg-[#050505] text-gray-300 p-10 border-t border-white/10 relative overflow-hidden mt-auto">
             {/* Background flares */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 blur-[120px] rounded-full pointer-events-none"></div>
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/5 blur-[120px] rounded-full pointer-events-none"></div>
