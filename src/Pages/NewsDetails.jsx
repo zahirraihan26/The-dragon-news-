@@ -11,6 +11,7 @@ const NewsDetails = () => {
     const [newsData, setNewsData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [scrollProgress, setScrollProgress] = useState(0);
+    const [isHackerMode, setIsHackerMode] = useState(false);
 
     // Track Reading Progress
     useEffect(() => {
@@ -43,11 +44,11 @@ const NewsDetails = () => {
         <div className="relative min-h-screen overflow-x-hidden text-gray-200 selection:bg-primary/30 selection:text-white pb-0 neon-grid">
             {/* Reading Progress Bar */}
             <div className="fixed top-0 left-0 h-1 bg-gradient-to-r from-primary via-secondary to-pink-500 z-[100] transition-all duration-150 ease-out" style={{ width: `${scrollProgress}%` }}></div>
-            
+
             {/* Ambient Background Glows */}
             <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[150px] rounded-full pointer-events-none z-0"></div>
             <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/10 blur-[150px] rounded-full pointer-events-none z-0"></div>
-            
+
             <AIAssistant />
             <BackToTop />
 
@@ -55,13 +56,13 @@ const NewsDetails = () => {
                 <header>
                     <nav className='w-full border-b border-white/5 bg-base-100/50 backdrop-blur-md sticky top-0 z-50 mb-4'>
                         <div className="w-11/12 mx-auto pt-2">
-                           <Navbar></Navbar>
+                            <Navbar></Navbar>
                         </div>
                     </nav>
                 </header>
-                
+
                 <main className='w-11/12 mx-auto mt-6 mb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 flex-grow'>
-                    
+
                     {/* Main Article Content */}
                     <section className='col-span-1 lg:col-span-9'>
                         {loading && (
@@ -81,14 +82,65 @@ const NewsDetails = () => {
 
                         {!loading && newsData && (
                             <div className="glass-panel bg-black/40 border border-white/5 rounded-2xl overflow-hidden p-6 md:p-10 mb-8 max-w-4xl">
-                                
+
                                 {/* Article Header */}
                                 <div className="mb-8">
-                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-widest mb-4 shadow-[0_0_10px_rgba(6,182,212,0.2)]">
-                                        <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
-                                        Core Database Retrieved
+                                    <div className="flex flex-wrap items-center gap-4 mb-4 mt-2">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-widest shadow-[0_0_10px_rgba(6,182,212,0.2)]">
+                                            <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+                                            Core Database Retrieved
+                                        </div>
+
+                                        <button
+                                            id="audio-brief-btn"
+                                            onClick={(e) => {
+                                                const btn = e.currentTarget;
+                                                const isPlaying = window.speechSynthesis.speaking;
+                                                if (isPlaying) {
+                                                    window.speechSynthesis.cancel();
+                                                    btn.classList.remove('btn-secondary', 'animate-pulse');
+                                                    btn.classList.add('btn-primary');
+                                                    btn.querySelector('span').innerText = 'AI Audio Briefing';
+                                                } else {
+                                                    const text = newsData.title + ". " + newsData.details;
+                                                    const utterance = new SpeechSynthesisUtterance(text);
+                                                    utterance.rate = 0.95;
+                                                    utterance.pitch = 0.8;
+                                                    const voices = window.speechSynthesis.getVoices();
+                                                    utterance.voice = voices.find(v => v.lang === 'en-US' && v.name.includes("Google")) || voices[0];
+
+                                                    utterance.onend = () => {
+                                                        btn.classList.remove('btn-secondary', 'animate-pulse');
+                                                        btn.classList.add('btn-primary');
+                                                        btn.querySelector('span').innerText = 'AI Audio Briefing';
+                                                    };
+
+                                                    window.speechSynthesis.speak(utterance);
+                                                    btn.classList.remove('btn-primary');
+                                                    btn.classList.add('btn-secondary', 'animate-pulse');
+                                                    btn.querySelector('span').innerText = 'Halt Briefing';
+                                                }
+                                            }}
+                                            className="btn btn-sm rounded-full btn-outline border-primary/50 btn-primary text-white hover:bg-primary/20 shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+                                            </svg>
+                                            <span>AI Audio Briefing</span>
+                                        </button>
+
+                                         {/* Hacker Mode Toggle */}
+                                         <button 
+                                            onClick={() => setIsHackerMode(!isHackerMode)}
+                                            className={`btn btn-sm rounded-full btn-outline border-success/50 text-success hover:bg-success/20 transition-all ${isHackerMode ? 'bg-success/20 shadow-[0_0_15px_rgba(74,222,128,0.5)] border-success animate-pulse' : ''}`}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                            </svg>
+                                            Hacker Mode
+                                        </button>
                                     </div>
-                                    <h1 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight mb-6">
+                                    <h1 className={`text-2xl md:text-4xl lg:text-5xl font-black leading-tight mb-6 mt-2 ${isHackerMode ? 'text-success font-mono drop-shadow-[0_0_10px_rgba(74,222,128,0.8)]' : 'text-white'}`}>
                                         {newsData.title}
                                     </h1>
 
@@ -102,7 +154,7 @@ const NewsDetails = () => {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 {/* Hero Image */}
                                 <div className="mb-10 relative group rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.5)]">
                                     <div className="absolute inset-x-5 inset-y-3 bg-gradient-to-t from-base-100 via-transparent to-transparent z-0 rounded-xl"></div>
@@ -111,12 +163,12 @@ const NewsDetails = () => {
                                 </div>
 
                                 {/* Article Body */}
-                                <div className="text-gray-300 leading-loose text-lg font-light pb-10 border-b border-white/10">
+                                <div className={`leading-loose text-lg pb-10 border-b border-white/10 ${isHackerMode ? 'font-mono text-success bg-black p-8 rounded-xl border border-success/30 shadow-[inset_0_0_20px_rgba(74,222,128,0.1)]' : 'text-gray-300 font-light'}`}>
                                     {newsData.details.split('\n').map((paragraph, idx) => (
-                                        <p key={idx} className="mb-6">{paragraph}</p>
+                                        <p key={idx} className="mb-6">{paragraph}{isHackerMode && idx === newsData.details.split('\n').length - 1 && <span className="animate-pulse bg-success w-3 h-5 inline-block ml-1 align-sub"></span>}</p>
                                     ))}
                                 </div>
-                                
+
                                 {/* Nav Actions */}
                                 <div className="flex justify-between items-center mt-8 mb-12 border-b border-white/10 pb-10">
                                     <Link to="/" className="btn btn-outline border-white/20 text-white hover:bg-white/10 hover:border-white/40 rounded-full px-8 py-3 transition-all">
@@ -135,7 +187,7 @@ const NewsDetails = () => {
                                         </svg>
                                         Node Telemetry (Discussion)
                                     </h3>
-                                    
+
                                     <div className="space-y-6">
                                         {/* Mock Comment */}
                                         <div className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5 hover:border-secondary/30 transition-colors">
@@ -173,7 +225,7 @@ const NewsDetails = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     {/* Add Comment */}
                                     <div className="mt-8 flex gap-4">
                                         <input type="text" placeholder="Transmit your analysis to the network..." className="input w-full bg-black/40 border-white/10 text-white focus:border-secondary focus:outline-none" />
@@ -183,13 +235,13 @@ const NewsDetails = () => {
                             </div>
                         )}
                     </section>
-                    
+
                     {/* Right Sidebar */}
                     <aside className="col-span-1 lg:col-span-3 sticky top-24 h-fit max-h-[calc(100vh-120px)] overflow-y-auto pl-2 custom-scrollbar">
                         <RightAsid />
                     </aside>
                 </main>
-                
+
                 <AIFooter></AIFooter>
             </div>
         </div>

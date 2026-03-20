@@ -4,6 +4,8 @@ import Navbar from '../Component/Navbar';
 import AIAssistant from '../Component/AIAssistant';
 import AIHero from '../Component/AIHero';
 import AIFooter from '../Component/AIFooter';
+import AIChatbot from '../Component/AIChatbot';
+import GlobalHologram from '../Component/GlobalHologram';
 
 // Dashboard Widgets
 import SystemStatus from '../Component/Homelaout/SystemStatus';
@@ -23,6 +25,7 @@ const HomeLaout = () => {
             
             <AIAssistant />
             <BackToTop />
+            <AIChatbot />
 
             <div className="relative z-10 w-full flex flex-col min-h-screen">
                 <header>
@@ -36,6 +39,10 @@ const HomeLaout = () => {
                 <AIHero></AIHero>
 
                 <main className='w-11/12 mx-auto mt-6 mb-16 flex flex-col gap-2 flex-grow'>
+                    
+                    {/* 3D Global Data Visualization */}
+                    <GlobalHologram />
+
                     {/* Top Dashboard Analytics Row */}
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                         <SystemStatus />

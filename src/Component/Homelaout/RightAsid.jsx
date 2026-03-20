@@ -2,15 +2,15 @@ import React from 'react';
 import SocalLogin from './Socallogin';
 import FindUs from './FindUs';
 import Qzon from './Qzon';
-import SystemStatus from './SystemStatus';
 import MarketTrends from './MarketTrends';
 import AIAudioBriefing from './AIAudioBriefing';
+import CyberWeather from './CyberWeather';
 
 const RightAsid = () => {
     return (
         <div className='flex flex-col gap-6'>
             <SocalLogin></SocalLogin>
-            <SystemStatus></SystemStatus>
+            <CyberWeather></CyberWeather>
             <FindUs></FindUs>
             <AIAudioBriefing></AIAudioBriefing>
             <MarketTrends></MarketTrends>

@@ -6,6 +6,8 @@ import AIFooter from '../Component/AIFooter';
 import AIAssistant from '../Component/AIAssistant';
 import NewsCard from '../Component/NewsCard';
 import { Navigate } from 'react-router';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const ProfileDashboard = () => {
     const { user, logout } = useContext(AuthContext);
@@ -14,6 +16,29 @@ const ProfileDashboard = () => {
     if (!user) {
         return <Navigate to="/auth/login" />;
     }
+
+    const handleExportPDF = () => {
+        const input = document.getElementById('bookmarks-section');
+        if(!input) return;
+        
+        // Add a temporary class to ensure it captures well in dark mode
+        input.classList.add('bg-black');
+        
+        html2canvas(input, { 
+            backgroundColor: '#000000',
+            scale: 2
+        }).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('NEXUS_Core_Memory.pdf');
+            
+            input.classList.remove('bg-black');
+        });
+    };
 
     return (
         <div className="relative min-h-screen overflow-x-hidden text-gray-200 selection:bg-primary/30 selection:text-white pb-0 neon-grid flex flex-col">
@@ -62,6 +87,10 @@ const ProfileDashboard = () => {
                                 <p className="text-gray-500 text-xs font-bold uppercase mb-1">Saved Streams</p>
                                 <p className="text-2xl font-black glow-text">{bookmarks.length}</p>
                             </div>
+                            <button onClick={handleExportPDF} className="btn-ai text-sm py-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                Extract Core Memory
+                            </button>
                             <button onClick={logout} className="btn btn-outline border-error/50 text-error hover:bg-error hover:text-white rounded-lg">
                                 Disconnect Session
                             </button>
@@ -69,7 +98,7 @@ const ProfileDashboard = () => {
                     </div>
 
                     {/* Bookmarked Streams Section */}
-                    <div>
+                    <div id="bookmarks-section" className="p-4 rounded-xl pb-10">
                         <h2 className="text-2xl font-bold text-white mb-6 border-b border-white/10 pb-4 inline-flex items-center gap-3 w-full">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
