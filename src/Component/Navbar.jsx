@@ -8,23 +8,23 @@ const Navbar = () => {
     const handelLogout = () => {
         console.log('user try to log out ')
         logout().then(() => {
-           alert('LOg out sussess full')
+           alert('Log out successful')
         }).catch((error) => {
             console.log(error)
         });
     }
     return (
-        <div className='flex justify-between items-center'>
-            <div className=''>{user && user.email}</div>
-            <div className='nav flex gap-5 text-accent'>
-                <NavLink to="/">Home</NavLink>
-                <NavLink to="about">About</NavLink>
-                <NavLink to="career">career</NavLink>
+        <div className='flex justify-between items-center glass-panel px-6 py-4 mb-6 sticky top-0 z-50'>
+            <div className='text-sm font-medium text-gray-300'>{user && user.email}</div>
+            <div className='nav flex gap-8 text-gray-400 font-medium tracking-wide'>
+                <NavLink to="/" className="hover:text-primary transition-colors cursor-pointer">Home</NavLink>
+                <NavLink to="/about" className="hover:text-primary transition-colors cursor-pointer">About</NavLink>
+                <NavLink to="/career" className="hover:text-primary transition-colors cursor-pointer">Career</NavLink>
             </div>
-            <div className="login-btn flex gap-5">
-                <img src={userimg} alt="" />
+            <div className="login-btn flex gap-4 items-center">
+                <img src={userimg} alt="User Avatar" className='w-10 h-10 rounded-full border-2 border-primary/40 shadow-[0_0_10px_rgba(6,182,212,0.3)]' />
                 {
-                    user ? <button onClick={handelLogout} className='btn btn-primary px-10'>Logut</button> : <Link to='/auth/login' className='btn btn-primary px-10'>Login</Link>
+                    user ? <button onClick={handelLogout} className='btn-ai'>Logout</button> : <Link to='/auth/login' className='btn-ai'>Login</Link>
                 }
 
             </div>

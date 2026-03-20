@@ -4,23 +4,49 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-  themes: light --default;
+  themes: dark --default;
 }
 
 @plugin "daisyui/theme" {
-  name: "light";
+  name: "dark";
   default: true;
-  --color-primary: #403F3F;
-  --color-secondary: #D72050;
-  --color-base-200: #F3F3F3;
-  --color-base-300: #E7E7E7;
-  --color-accent: #706F6F;
+  --color-primary: #06b6d4;
+  --color-secondary: #8b5cf6;
+  --color-accent: #f472b6;
+  --color-neutral: #171717;
+  --color-base-100: #0a0a0a;
+  --color-base-200: #171717;
+  --color-base-300: #262626;
 }
 
 * {
   font-family: "Poppins", sans-serif;
 }
 
-a.active{
-  @apply bg-base-300
+body {
+  background-color: var(--color-base-100);
+  color: #f3f4f6;
+  min-height: 100vh;
+}
+
+a.active {
+  @apply text-primary font-semibold;
+  text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+/* AI Premium UI Classes */
+.glass-panel {
+  @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)] rounded-2xl;
+}
+
+.glow-text {
+  @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(6,182,212,0.4)];
+}
+
+.neon-border {
+  @apply border border-primary/30 shadow-[0_0_15px_rgba(6,182,212,0.2)] hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] hover:border-primary/60 transition-all duration-300 rounded-2xl;
+}
+
+.btn-ai {
+  @apply btn bg-gradient-to-r from-primary to-secondary border-none text-white shadow-[0_0_15px_rgba(139,92,246,0.4)] hover:shadow-[0_0_25px_rgba(139,92,246,0.6)] transition-all duration-300 rounded-full px-8;
 }

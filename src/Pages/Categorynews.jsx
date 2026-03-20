@@ -29,10 +29,10 @@ const Categorynews = () => {
 
     }, [data, id])
     return (
-        <div>
+        <div className="mt-4">
 
-          <h2 className='font-bold mb-5'>  Total- <span className='text-secondary'>{categoryNews.length} </span> news Found</h2>
-          <div className='grid grid-cols-1 gap-5'>
+          <h2 className='font-semibold text-gray-300 text-lg mb-6'>Total <span className='text-primary font-bold px-2 py-1 bg-primary/10 rounded-md border border-primary/20'>{categoryNews.length}</span> news found in this category</h2>
+          <div className='grid grid-cols-1 gap-6'>
             {
                 categoryNews.map((news)=>( 
                 <NewsCard key={news.id} news={news}></NewsCard>
