@@ -1,5 +1,5 @@
 import React from 'react';
-import SocalLogin from './Socallogin';
+import SocalLogin from './SocalLogin';
 import FindUs from './FindUs';
 import Qzon from './Qzon';
 import MarketTrends from './MarketTrends';
