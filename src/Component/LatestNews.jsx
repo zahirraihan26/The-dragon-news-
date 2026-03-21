@@ -9,7 +9,7 @@ const LatestNews = () => {
                 LATEST AI NEWS
             </p>
 
-            <Marquee className='flex gap-10 text-gray-300 font-light' pauseOnHover={true} speed={50} gradient={false}>
+            <Marquee className='flex gap-10 text-base-content/70 font-light' pauseOnHover={true} speed={50} gradient={false}>
                 <p className='mx-8 hover:text-primary transition-colors cursor-pointer'>OpenAI announces groundbreaking advancements in AI logic...</p>
                 <p className='mx-8 hover:text-primary transition-colors cursor-pointer'>New machine learning models predict market trends with unprecedented accuracy...</p>
                 <p className='mx-8 hover:text-primary transition-colors cursor-pointer'>Quantum computing integration accelerates deep learning tenfold...</p>

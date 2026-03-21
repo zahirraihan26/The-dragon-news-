@@ -7,18 +7,15 @@ const Navbar = () => {
     const { user, logout } = use(AuthContext)
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
-    const [isQuantumLight, setIsQuantumLight] = useState(false);
+    const [isQuantumLight, setIsQuantumLight] = useState(() => {
+        return localStorage.getItem('dragon-theme') === 'light';
+    });
 
-    // Matrix Theme Toggle (CSS Filter Hack for complete sweeping dramatic effect)
+    // Matrix Theme Toggle (Professional attribute-based switching)
     useEffect(() => {
-        if (isQuantumLight) {
-            document.body.style.filter = "invert(1) hue-rotate(180deg) contrast(1.1)";
-            document.body.style.transition = "filter 0.5s cubic-bezier(0.4, 0, 0.2, 1)";
-            document.body.style.backgroundColor = "#ddd"; 
-        } else {
-            document.body.style.filter = "none";
-            document.body.style.backgroundColor = "#000";
-        }
+        const theme = isQuantumLight ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('dragon-theme', theme);
     }, [isQuantumLight]);
 
     const handleSearchSubmit = (e) => {
@@ -30,7 +27,7 @@ const Navbar = () => {
     const handelLogout = () => {
         console.log('user try to log out ')
         logout().then(() => {
-           alert('Log out successful')
+            alert('Log out successful')
         }).catch((error) => {
             console.log(error)
         });
@@ -38,21 +35,21 @@ const Navbar = () => {
     return (
         <div className='flex justify-between items-center glass-panel px-6 py-4 mb-6 sticky top-0 z-50'>
             <div className='text-sm font-medium text-gray-300'>{user && user.email}</div>
-            
+
             {/* Center: Search Bar (New Feature) */}
             <form onSubmit={handleSearchSubmit} className="navbar-center hidden lg:flex w-full max-w-sm mx-4">
                 <div className="relative w-full group">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <svg className="w-4 h-4 text-gray-400 group-focus-within:text-primary transition-colors" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                         </svg>
                     </div>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="block w-full p-2 pl-10 text-sm text-white bg-black/20 border border-white/10 rounded-full focus:ring-primary focus:border-primary placeholder-gray-500 transition-all focus:bg-black/50 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)]" 
-                        placeholder="Search datastreams..." 
+                        className="block w-full p-2 pl-10 text-sm text-white bg-black/20 border border-white/10 rounded-full focus:ring-primary focus:border-primary placeholder-gray-500 transition-all focus:bg-black/50 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+                        placeholder="Search datastreams..."
                     />
                     <button type="submit" className="hidden">Search</button>
                 </div>
@@ -84,7 +81,7 @@ const Navbar = () => {
                 </div>
 
                 {/* Theme Toggle Button */}
-                <button 
+                {/* <button 
                     onClick={() => setIsQuantumLight(!isQuantumLight)}
                     className="p-2 rounded-full border border-white/10 bg-black/40 hover:bg-white/10 transition-colors text-primary shadow-[0_0_10px_rgba(6,182,212,0.2)] hover:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
                     title={isQuantumLight ? "Engage Cyber Dark Mode" : "Engage Quantum Light Mode"}
@@ -98,20 +95,20 @@ const Navbar = () => {
                             <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" />
                         </svg>
                     )}
-                </button>
+                </button> */}
             </div>
-                <div className='login flex gap-4 items-center'>
-                    {user ? (
-                        <>
-                            <Link to="/dashboard" className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/50 overflow-hidden shadow-[0_0_10px_rgba(6,182,212,0.3)] hover:shadow-[0_0_20px_rgba(6,182,212,0.6)] hover:border-primary transition-all cursor-pointer group">
-                                {user.photoURL ? <img src={user.photoURL} alt="User" className="group-hover:scale-110 transition-transform" /> : <span className="text-primary font-bold group-hover:scale-110 transition-transform">{user.email?.charAt(0).toUpperCase()}</span>}
-                            </Link>
-                            <button onClick={handelLogout} className='btn-ai text-sm px-6 py-2'>Disconnect</button>
-                        </>
-                    ) : ( 
-                        <Link to='/auth/login' className='btn-ai text-sm px-8 py-2'>Initialize Login</Link>
-                    )}
-                </div>
+            <div className='login flex gap-4 items-center'>
+                {user ? (
+                    <>
+                        <Link to="/dashboard" className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/50 overflow-hidden shadow-[0_0_10px_rgba(6,182,212,0.3)] hover:shadow-[0_0_20px_rgba(6,182,212,0.6)] hover:border-primary transition-all cursor-pointer group">
+                            {user.photoURL ? <img src={user.photoURL} alt="User" className="group-hover:scale-110 transition-transform" /> : <span className="text-primary font-bold group-hover:scale-110 transition-transform">{user.email?.charAt(0).toUpperCase()}</span>}
+                        </Link>
+                        <button onClick={handelLogout} className='btn-ai text-sm px-6 py-2'>Disconnect</button>
+                    </>
+                ) : (
+                    <Link to='/auth/login' className='btn-ai text-sm px-8 py-2'>Initialize Login</Link>
+                )}
+            </div>
         </div>
     );
 };

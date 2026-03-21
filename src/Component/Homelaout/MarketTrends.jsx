@@ -27,7 +27,7 @@ const MarketTrends = () => {
             {/* Background Glow */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 blur-[40px] rounded-full"></div>
             
-            <h3 className="font-bold text-lg mb-4 text-white flex items-center gap-2">
+            <h3 className="font-bold text-lg mb-4 text-base-content flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
@@ -37,9 +37,9 @@ const MarketTrends = () => {
             <div className="space-y-6">
                 
                 {/* Chart 1: Global Datastream Flow */}
-                <div className="border border-white/5 bg-black/40 rounded-xl p-4">
+                <div className="border border-base-content/5 bg-base-100/40 rounded-xl p-4">
                     <div className="flex justify-between items-center mb-3">
-                        <h4 className="text-sm font-semibold text-gray-300">Global Datastream Flow</h4>
+                        <h4 className="text-sm font-semibold text-base-content/70">Global Datastream Flow</h4>
                         <span className="text-xs text-success bg-success/10 px-2 py-0.5 rounded border border-success/20">+14.2%</span>
                     </div>
                     
@@ -53,7 +53,7 @@ const MarketTrends = () => {
                                     </linearGradient>
                                 </defs>
                                 <Tooltip
-                                    contentStyle={{ backgroundColor: '#000', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                                    contentStyle={{ backgroundColor: 'rgba(var(--color-base-100), 0.9)', border: '1px solid rgba(var(--color-base-content), 0.1)', borderRadius: '8px' }}
                                     itemStyle={{ color: '#8b5cf6' }}
                                 />
                                 <Area type="monotone" dataKey="value" stroke="#8b5cf6" strokeWidth={2} fillOpacity={1} fill="url(#colorValue)" />
@@ -63,9 +63,9 @@ const MarketTrends = () => {
                 </div>
 
                 {/* Chart 2: Active Neural Nodes */}
-                <div className="border border-white/5 bg-black/40 rounded-xl p-4">
+                <div className="border border-base-content/5 bg-base-100/40 rounded-xl p-4">
                     <div className="flex justify-between items-center mb-3">
-                        <h4 className="text-sm font-semibold text-gray-300">Active Node Clusters</h4>
+                        <h4 className="text-sm font-semibold text-base-content/70">Active Node Clusters</h4>
                         <span className="text-xs text-warning bg-warning/10 px-2 py-0.5 rounded border border-warning/20">Spiking</span>
                     </div>
                     
@@ -79,7 +79,7 @@ const MarketTrends = () => {
                                     </linearGradient>
                                 </defs>
                                 <Tooltip 
-                                    contentStyle={{ backgroundColor: '#000', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                                    contentStyle={{ backgroundColor: 'rgba(var(--color-base-100), 0.9)', border: '1px solid rgba(var(--color-base-content), 0.1)', borderRadius: '8px' }}
                                     itemStyle={{ color: '#06b6d4' }}
                                 />
                                 <Area type="monotone" dataKey="active" stroke="#06b6d4" strokeWidth={2} fillOpacity={1} fill="url(#colorActive)" />
@@ -90,7 +90,7 @@ const MarketTrends = () => {
 
             </div>
 
-            <button className="btn btn-outline border-white/10 text-gray-400 hover:text-white hover:bg-white/10 w-full mt-6 rounded-lg text-sm transition-colors">
+            <button className="btn btn-outline border-base-content/10 text-base-content/50 hover:text-base-content hover:bg-base-content/10 w-full mt-6 rounded-lg text-sm transition-colors">
                 View Deep Analytics
             </button>
         </div>

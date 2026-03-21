@@ -35,14 +35,14 @@ function NewsCard({ news }) {
         <div className="glass-panel overflow-hidden flex flex-col group h-full">
             {/* Author / Date Header */}
             <div className="flex items-center p-3 border-b border-white/10 relative z-10">
-                <div className="w-10 h-10 rounded-full border border-primary/30 p-[2px] bg-black/40 shadow-[0_0_10px_rgba(6,182,212,0.2)]">
-                    <img src={author.img} alt={author.name} className="w-full h-full object-cover rounded-full" />
+                <div className='flex items-center gap-3'>
+                    <img className='w-10 h-10 rounded-full border border-primary/20 bg-base-200' src={author.img} alt="" />
+                    <div>
+                        <p className='font-bold text-base-content'>{author.name}</p>
+                        <p className='text-xs text-base-content/60 font-mono uppercase tracking-tighter'>{new Date(author.published_date).toLocaleDateString()}</p>
+                    </div>
                 </div>
-                <div className="ml-3 flex-grow">
-                    <h3 className="font-semibold text-sm text-gray-200">{author.name || 'Anonymous Node'}</h3>
-                    <p className="text-xs text-primary/70 font-mono tracking-wider">{author.published_date ? new Date(author.published_date).toDateString() : 'SYNC ERROR'}</p>
-                </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 ml-auto">
                     <button 
                         onClick={(e) => { e.preventDefault(); toggleBookmark(news); }} 
                         className={`btn btn-circle btn-sm btn-ghost border border-white/10 ${bookmarked ? 'text-secondary bg-secondary/10 shadow-[0_0_10px_rgba(139,92,246,0.6)]' : 'text-gray-400 hover:text-white hover:bg-white/10'} transition-all`}

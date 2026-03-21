@@ -4,7 +4,7 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-  themes: dark --default;
+  themes: dark, light;
 }
 
 @plugin "daisyui/theme" {
@@ -17,15 +17,29 @@
   --color-base-100: #0a0a0a;
   --color-base-200: #171717;
   --color-base-300: #262626;
+  --color-base-content: #f3f4f6;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  --color-primary: #0891b2;
+  --color-secondary: #7c3aed;
+  --color-accent: #db2777;
+  --color-neutral: #e5e7eb;
+  --color-base-100: #ffffff;
+  --color-base-200: #f3f4f6;
+  --color-base-300: #e5e7eb;
+  --color-base-content: #1f2937;
 }
 
 * {
   font-family: "Poppins", sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 body {
   background-color: var(--color-base-100);
-  color: #f3f4f6;
+  color: var(--color-base-content);
   min-height: 100vh;
 }
 
@@ -65,22 +79,22 @@ a.active {
   100% { background-position: 40px 40px; }
 }
 
-/* Custom Neon Scrollbar */
+/* Custom Neon Scrollbar - Adaptive */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: var(--color-base-100);
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 1px solid rgba(var(--color-base-content), 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(6, 182, 212, 0.3);
+  background: color-mix(in srgb, var(--color-primary) 30%, transparent);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(6, 182, 212, 0.6);
-  box-shadow: 0 0 10px rgba(6, 182, 212, 1);
+  background: color-mix(in srgb, var(--color-primary) 60%, transparent);
+  box-shadow: 0 0 10px var(--color-primary);
 }

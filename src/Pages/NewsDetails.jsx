@@ -69,7 +69,7 @@ const NewsDetails = () => {
 
 
     return (
-        <div className="relative min-h-screen overflow-x-hidden text-gray-200 selection:bg-primary/30 selection:text-white pb-0 neon-grid">
+        <div className="relative min-h-screen overflow-x-hidden text-base-content selection:bg-primary/30 selection:text-white pb-0 neon-grid">
             {/* Reading Progress Bar */}
             <div className="fixed top-0 left-0 h-1 bg-gradient-to-r from-primary via-secondary to-pink-500 z-[100] transition-all duration-150 ease-out" style={{ width: `${scrollProgress}%` }}></div>
 
@@ -82,7 +82,7 @@ const NewsDetails = () => {
 
             <div className="relative z-10 w-full flex flex-col min-h-screen">
                 <header>
-                    <nav className='w-full border-b border-white/5 bg-base-100/50 backdrop-blur-md sticky top-0 z-50 mb-4'>
+                    <nav className='w-full border-b border-base-content/5 bg-base-100/50 backdrop-blur-md sticky top-0 z-50 mb-4'>
                         <div className="w-11/12 mx-auto pt-2">
                             <Navbar></Navbar>
                         </div>
@@ -101,15 +101,15 @@ const NewsDetails = () => {
                         )}
 
                         {!loading && !newsData && (
-                            <div className="glass-panel p-20 text-center border-error/20">
+                            <div className="glass-panel p-20 text-center border-error/20 bg-base-100">
                                 <h2 className="text-2xl font-bold text-error">Data Stream Corrupted</h2>
-                                <p className="text-gray-400 mt-2">The article you looking for was not found in the neural cache.</p>
+                                <p className="text-base-content/60 mt-2">The article you looking for was not found in the neural cache.</p>
                                 <Link to="/" className="btn-ai inline-block mt-6 hover:scale-105 transition-transform">Return to Nexus</Link>
                             </div>
                         )}
 
                         {!loading && newsData && (
-                            <div className="glass-panel bg-black/40 border border-white/5 rounded-2xl overflow-hidden p-6 md:p-10 mb-8 max-w-4xl">
+                            <div className="glass-panel bg-base-100/40 border border-base-content/5 rounded-2xl overflow-hidden p-6 md:p-10 mb-8 max-w-4xl">
 
                                 {/* Article Header */}
                                 <div className="mb-8">
@@ -195,22 +195,22 @@ const NewsDetails = () => {
                                             Hacker Mode
                                         </button>
 
-                                        {/* Sentiment Badge */}
-                                        <div className={`px-3 py-1 rounded-full bg-white/5 border border-white/10 flex items-center gap-2 text-[10px] font-bold uppercase tracking-tighter ${sentiment.color}`}>
+                                         {/* Sentiment Badge */}
+                                        <div className={`px-3 py-1 rounded-full bg-base-content/5 border border-base-content/10 flex items-center gap-2 text-[10px] font-bold uppercase tracking-tighter ${sentiment.color}`}>
                                             <span className={`w-1.5 h-1.5 rounded-full bg-current shadow-[0_0_8px_currentColor]`}></span>
                                             Sentiment: {sentiment.label} ({sentiment.score}%)
                                         </div>
                                     </div>
 
-                                    <h1 className={`text-2xl md:text-4xl lg:text-5xl font-black leading-tight mb-6 mt-2 ${isHackerMode ? 'text-success font-mono drop-shadow-[0_0_10px_rgba(74,222,128,0.8)]' : 'text-white'}`}>
+                                     <h1 className={`text-2xl md:text-4xl lg:text-5xl font-black leading-tight mb-6 mt-2 ${isHackerMode ? 'text-success font-mono drop-shadow-[0_0_10px_rgba(74,222,128,0.8)]' : 'text-base-content'}`}>
                                         {newsData.title}
                                     </h1>
 
-                                    <div className="flex items-center gap-4 border-b border-white/10 pb-6">
-                                        <img src={newsData.author?.img} alt="Author" className="w-14 h-14 rounded-full border-2 border-primary/40 shadow-[0_0_15px_rgba(6,182,212,0.3)]" />
+                                    <div className="flex items-center gap-4 border-b border-base-content/10 pb-6">
+                                        <img src={newsData.author?.img} alt="Author" className="w-14 h-14 rounded-full border-2 border-primary/40 shadow-[0_0_15px_rgba(6,182,212,0.3)] bg-base-200" />
                                         <div>
-                                            <p className="font-bold text-gray-200">{newsData.author?.name || "AI Agent"}</p>
-                                            <p className="text-sm text-gray-500">
+                                            <p className="font-bold text-base-content">{newsData.author?.name || "AI Agent"}</p>
+                                            <p className="text-sm text-base-content/50">
                                                 Published: {new Date(newsData.author?.published_date).toLocaleDateString()}
                                             </p>
                                         </div>
@@ -228,13 +228,13 @@ const NewsDetails = () => {
                                 {showSummary && (
                                     <div className="mb-10 relative overflow-hidden group">
                                         <div className="absolute -inset-[2px] bg-gradient-to-r from-primary via-secondary to-pink-500 rounded-2xl opacity-50 blur-sm group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-                                        <div className="relative glass-panel bg-black/80 p-8 rounded-2xl border border-white/10">
+                                         <div className="relative glass-panel bg-base-200 p-8 rounded-2xl border border-base-content/10">
                                             <div className="flex items-center justify-between mb-4">
                                                 <div className="flex items-center gap-2">
                                                     <div className="w-2 h-2 rounded-full bg-secondary animate-ping"></div>
                                                     <h4 className="text-secondary font-bold uppercase tracking-[0.2em] text-xs">Neural Summary Result</h4>
                                                 </div>
-                                                <button onClick={() => setShowSummary(false)} className="text-gray-500 hover:text-white transition-colors">
+                                                <button onClick={() => setShowSummary(false)} className="text-base-content/40 hover:text-base-content transition-colors">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                                     </svg>
@@ -243,18 +243,18 @@ const NewsDetails = () => {
                                             
                                             {isSummarizing ? (
                                                 <div className="flex flex-col gap-4">
-                                                    <div className="h-4 bg-white/5 rounded-full w-full animate-pulse"></div>
-                                                    <div className="h-4 bg-white/5 rounded-full w-3/4 animate-pulse"></div>
-                                                    <div className="h-4 bg-white/5 rounded-full w-5/6 animate-pulse"></div>
+                                                    <div className="h-4 bg-base-content/10 rounded-full w-full animate-pulse"></div>
+                                                    <div className="h-4 bg-base-content/10 rounded-full w-3/4 animate-pulse"></div>
+                                                    <div className="h-4 bg-base-content/10 rounded-full w-5/6 animate-pulse"></div>
                                                 </div>
                                             ) : (
-                                                <p className="text-gray-200 text-lg italic leading-relaxed font-light">
+                                                <p className="text-base-content text-lg italic leading-relaxed font-light">
                                                     {summaryText}
                                                     <span className="inline-block w-2 h-5 bg-secondary ml-1 animate-pulse align-middle"></span>
                                                 </p>
                                             )}
 
-                                            <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between text-[10px] text-gray-500 font-mono">
+                                            <div className="mt-6 pt-6 border-t border-base-content/10 flex items-center justify-between text-[10px] text-base-content/40 font-mono">
                                                 <span>ENGINE: GPT-NEURAL-4.0</span>
                                                 <span>CONFIDENCE: 98.4%</span>
                                             </div>
@@ -263,8 +263,8 @@ const NewsDetails = () => {
                                 )}
 
 
-                                { /* Article Body with Truncation Handling */ }
-                                <div className={`leading-loose text-lg pb-10 border-b border-white/10 ${isHackerMode ? 'font-mono text-success bg-black p-8 rounded-xl border border-success/30 shadow-[inset_0_0_20px_rgba(74,222,128,0.1)]' : 'text-gray-300 font-light'}`}>
+                                 { /* Article Body with Truncation Handling */ }
+                                <div className={`leading-loose text-lg pb-10 border-b border-base-content/10 ${isHackerMode ? 'font-mono text-success bg-black p-8 rounded-xl border border-success/30 shadow-[inset_0_0_20px_rgba(74,222,128,0.1)]' : 'text-base-content/80 font-light'}`}>
                                     {newsData.details.split('\n').map((paragraph, idx) => (
                                         <p key={idx} className="mb-6">
                                             {paragraph.includes('[+') ? paragraph.split('[+')[0] : paragraph}
@@ -279,7 +279,7 @@ const NewsDetails = () => {
                                             <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
                                             Neural Link Established
                                         </h4>
-                                        <p className="text-sm text-gray-400 mb-6 italic">
+                                        <p className="text-sm text-base-content/60 mb-6 italic">
                                             The neural cache contains a partial data stream. For the complete unencrypted record, establish a direct link to the origin server.
                                         </p>
                                         <a 
@@ -296,9 +296,9 @@ const NewsDetails = () => {
                                     </div>
                                 </div>
 
-                                {/* Nav Actions */}
-                                <div className="flex justify-between items-center mt-8 mb-12 border-b border-white/10 pb-10">
-                                    <Link to="/" className="btn btn-outline border-white/20 text-white hover:bg-white/10 hover:border-white/40 rounded-full px-8 py-3 transition-all">
+                                 {/* Nav Actions */}
+                                <div className="flex justify-between items-center mt-8 mb-12 border-b border-base-content/10 pb-10">
+                                    <Link to="/" className="btn btn-outline border-base-content/20 text-base-content hover:bg-base-content/10 hover:border-base-content/40 rounded-full px-8 py-3 transition-all">
                                         &larr; Back to Dashboard
                                     </Link>
                                     <button className="btn-ai py-3 px-8 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.5)]">
@@ -306,9 +306,9 @@ const NewsDetails = () => {
                                     </button>
                                 </div>
 
-                                {/* AI Community Telemetry (Comments Section) */}
-                                <div className="mt-8 bg-black/40 p-8 rounded-2xl border border-white/5 shadow-inner">
-                                    <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                                 {/* AI Community Telemetry (Comments Section) */}
+                                <div className="mt-8 bg-base-300/30 p-8 rounded-2xl border border-base-content/5 shadow-inner">
+                                    <h3 className="text-2xl font-bold text-base-content mb-6 flex items-center gap-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
                                         </svg>
@@ -316,36 +316,36 @@ const NewsDetails = () => {
                                     </h3>
 
                                     <div className="space-y-6">
-                                        {/* Mock Comment */}
-                                        <div className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5 hover:border-secondary/30 transition-colors">
+                                         {/* Mock Comment */}
+                                        <div className="flex gap-4 p-4 bg-base-100/50 rounded-xl border border-base-content/5 hover:border-secondary/30 transition-colors">
                                             <div className="w-10 h-10 rounded-full bg-secondary/20 flex flex-shrink-0 items-center justify-center font-bold text-secondary text-sm border border-secondary/50">
                                                 NX
                                             </div>
                                             <div>
                                                 <div className="flex gap-2 items-center mb-1">
-                                                    <h5 className="font-bold text-gray-200">Sector Commander</h5>
-                                                    <span className="text-xs text-gray-500 font-mono">14m ago</span>
+                                                    <h5 className="font-bold text-base-content">Sector Commander</h5>
+                                                    <span className="text-xs text-base-content/40 font-mono">14m ago</span>
                                                 </div>
-                                                <p className="text-gray-400 text-sm">I cross-referenced this datastream with off-grid servers. The analysis holds up. Re-routing priority allocation now.</p>
-                                                <div className="flex gap-4 mt-2 text-xs text-gray-500 font-bold">
+                                                <p className="text-base-content/70 text-sm">I cross-referenced this datastream with off-grid servers. The analysis holds up. Re-routing priority allocation now.</p>
+                                                <div className="flex gap-4 mt-2 text-xs text-base-content/40 font-bold">
                                                     <button className="hover:text-success transition-colors">ENDORSE (24)</button>
                                                     <button className="hover:text-error transition-colors">FLAG</button>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        {/* Mock Comment */}
-                                        <div className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5 hover:border-primary/30 transition-colors">
+                                         {/* Mock Comment */}
+                                        <div className="flex gap-4 p-4 bg-base-100/50 rounded-xl border border-base-content/5 hover:border-primary/30 transition-colors">
                                             <div className="w-10 h-10 rounded-full bg-primary/20 flex flex-shrink-0 items-center justify-center font-bold text-primary text-sm border border-primary/50">
                                                 Q3
                                             </div>
                                             <div>
                                                 <div className="flex gap-2 items-center mb-1">
-                                                    <h5 className="font-bold text-gray-200">Quantum Node 34</h5>
-                                                    <span className="text-xs text-gray-500 font-mono">2h ago</span>
+                                                    <h5 className="font-bold text-base-content">Quantum Node 34</h5>
+                                                    <span className="text-xs text-base-content/40 font-mono">2h ago</span>
                                                 </div>
-                                                <p className="text-gray-400 text-sm">There is a minor discrepancy in the probability vectors mentioned in paragraph 3. Applying patch algorithm to compensate.</p>
-                                                <div className="flex gap-4 mt-2 text-xs text-gray-500 font-bold">
+                                                <p className="text-base-content/70 text-sm">There is a minor discrepancy in the probability vectors mentioned in paragraph 3. Applying patch algorithm to compensate.</p>
+                                                <div className="flex gap-4 mt-2 text-xs text-base-content/40 font-bold">
                                                     <button className="hover:text-success transition-colors">ENDORSE (191)</button>
                                                     <button className="hover:text-error transition-colors">FLAG (2)</button>
                                                 </div>
@@ -353,9 +353,9 @@ const NewsDetails = () => {
                                         </div>
                                     </div>
 
-                                    {/* Add Comment */}
+                                     {/* Add Comment */}
                                     <div className="mt-8 flex gap-4">
-                                        <input type="text" placeholder="Transmit your analysis to the network..." className="input w-full bg-black/40 border-white/10 text-white focus:border-secondary focus:outline-none" />
+                                        <input type="text" placeholder="Transmit your analysis to the network..." className="input w-full bg-base-100 border-base-content/10 text-base-content focus:border-secondary focus:outline-none" />
                                         <button className="btn btn-secondary shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:shadow-[0_0_20px_rgba(139,92,246,0.6)]">Transmit</button>
                                     </div>
                                 </div>
