@@ -45,7 +45,7 @@ const useWeather = () => {
                 (position) => {
                     fetchWeather(position.coords.latitude, position.coords.longitude);
                 },
-                (err) => {
+                () => {
                     console.warn("Geolocation denied, falling back to default city.");
                     fetchWeather(null, null, "Dhaka");
                 }
@@ -66,7 +66,7 @@ const useWeather = () => {
         }, 600000); // 10 mins
 
         return () => clearInterval(interval);
-    }, [API_KEY]);
+    }, [API_KEY, location.city, weather]);
 
     return { weather, loading, error, location };
 };

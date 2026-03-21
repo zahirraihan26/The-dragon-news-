@@ -8,7 +8,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
     const [currentTime, setCurrentTime] = useState(new Date());
-    const [isQuantumLight, setIsQuantumLight] = useState(() => {
+    const [isQuantumLight] = useState(() => {
         return localStorage.getItem('dragon-theme') === 'light';
     });
     const { weather } = useWeather();

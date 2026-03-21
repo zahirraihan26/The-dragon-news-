@@ -3,6 +3,7 @@ import auth from '../Firebase/Firebase.config';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext=createContext()
 const googleProvider = new GoogleAuthProvider();
 

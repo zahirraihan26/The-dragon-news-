@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FaEye, FaShareAlt, FaStar, FaRegStar } from 'react-icons/fa';
+import { FaEye, FaShareAlt, FaStar } from 'react-icons/fa';
 import { Link } from 'react-router';
 import { BookmarkContext } from '../Provider/BookmarkProvider';
 
@@ -8,9 +8,6 @@ function NewsCard({ news }) {
     const { toggleBookmark, isBookmarked } = useContext(BookmarkContext);
     const bookmarked = isBookmarked(_id);
 
-    // AI simulated analysis stat
-    const aiConfidence = Math.floor(Math.random() * (99 - 85 + 1)) + 85;
-    
     // Simulated Sentiment for Card
     const sentiments = [
         { label: "Positive", color: "text-emerald-400", border: "border-emerald-500/30" },
@@ -18,18 +15,6 @@ function NewsCard({ news }) {
         { label: "Analytical", color: "text-primary", border: "border-primary/30" }
     ];
     const cardSentiment = sentiments[Math.floor(Math.random() * sentiments.length)];
-
-
-    // Helper functions for stars
-    const renderStars = (ratingValue) => {
-        const totalStars = 5;
-        const filledStars = Math.round(ratingValue);
-        return [...Array(totalStars)].map((_, i) => (
-            <span key={i} className={`text-sm ${i < filledStars ? 'text-primary drop-shadow-[0_0_5px_rgba(6,182,212,0.8)]' : 'text-gray-600'}`}>
-                {i < filledStars ? <FaStar /> : <FaRegStar />}
-            </span>
-        ));
-    };
 
     return (
         <div className="glass-panel overflow-hidden flex flex-col group h-full">

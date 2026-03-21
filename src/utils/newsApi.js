@@ -182,7 +182,9 @@ export const fetchArticleDetails = async (id, titleQuery) => {
         const url = `${BASE_URL}/everything?q="${encodeURIComponent(titleQuery)}"&apiKey=${API_KEY}`;
         const res = await fetch(url).then(r => r.json());
         if (res.status === 'ok' && res.articles.length > 0) return mapApiData(res.articles[0], 0);
-    } catch (e) {}
+    } catch (err) {
+        console.warn("Deep search fetch aborted:", err);
+    }
 
     // Fallback or attempt to find among latest (Currents doesn't have good 'search by title' for free)
     return null;
