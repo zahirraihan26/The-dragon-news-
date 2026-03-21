@@ -1,15 +1,22 @@
 import React, { use, useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router';
-import userimg from "../assets/user.png"
 import { AuthContext } from '../Provider/AuthProvider';
+import useWeather from '../hooks/useWeather';
 
 const Navbar = () => {
     const { user, logout } = use(AuthContext)
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
+    const [currentTime, setCurrentTime] = useState(new Date());
     const [isQuantumLight, setIsQuantumLight] = useState(() => {
         return localStorage.getItem('dragon-theme') === 'light';
     });
+    const { weather } = useWeather();
+
+    useEffect(() => {
+        const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+        return () => clearInterval(timer);
+    }, []);
 
     // Matrix Theme Toggle (Professional attribute-based switching)
     useEffect(() => {
@@ -34,7 +41,60 @@ const Navbar = () => {
     }
     return (
         <div className='flex justify-between items-center glass-panel px-6 py-4 mb-6 sticky top-0 z-50'>
-            <div className='text-sm font-medium text-gray-300'>{user && user.email}</div>
+            {/* Left side: Global Clock & Identity */}
+            <div className='flex items-center gap-4'>
+                <div className='hidden sm:flex items-center gap-3 bg-base-200/50 backdrop-blur-sm px-4 py-2 rounded-xl border border-base-content/10 shadow-inner group hover:border-primary/50 transition-all duration-500'>
+                    {/* Clock Section */}
+                    <div className='flex items-center gap-3'>
+                        <div className='relative'>
+                            <div className='w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors'>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div className='absolute -top-1 -right-1 w-2 h-2 bg-primary animate-pulse rounded-full shadow-[0_0_8px_rgba(6,182,212,0.8)]'></div>
+                        </div>
+                        <div className='flex flex-col'>
+                            <span className='text-sm font-black text-base-content font-mono tracking-widest leading-none drop-shadow-[0_0_8px_rgba(var(--color-base-content),0.2)]'>
+                                {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                            </span>
+                            <div className='flex items-center gap-2 mt-1'>
+                                <span className='text-[9px] text-primary font-bold uppercase tracking-tighter opacity-80 flex items-center gap-1'>
+                                    <span className='w-1 h-1 bg-primary rounded-full animate-ping'></span>
+                                    {currentTime.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Weather Section (The "Water" too) */}
+                    {weather && (
+                        <div className='flex items-center gap-3 border-l border-base-content/10 pl-3 ml-1'>
+                            <div className='flex flex-col items-end'>
+                                <span className='text-sm font-black text-base-content font-mono leading-none'>
+                                    {Math.round(weather.main?.temp)}°C
+                                </span>
+                                <span className='text-[10px] text-secondary font-bold uppercase tracking-tighter opacity-80 mt-1 capitalize'>
+                                    {weather.weather?.[0]?.description}
+                                </span>
+                            </div>
+                            {weather.weather?.[0]?.icon && (
+                                <img
+                                    src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
+                                    alt="weather icon"
+                                    className="w-10 h-10 drop-shadow-[0_0_8px_rgba(0,0,0,0.5)] bg-base-100/20 rounded-full"
+                                />
+                            )}
+                        </div>
+                    )}
+                </div>
+                {user && (
+                    <div className='h-8 w-[1px] bg-base-content/10 hidden xl:block mx-1'></div>
+                )}
+                <div className='text-xs font-mono text-base-content/40 hidden xl:block'>
+                    {user && user.email}
+                </div>
+            </div>
 
             {/* Center: Search Bar (New Feature) */}
             <form onSubmit={handleSearchSubmit} className="navbar-center hidden lg:flex w-full max-w-sm mx-4">
