@@ -10,6 +10,15 @@ function NewsCard({ news }) {
 
     // AI simulated analysis stat
     const aiConfidence = Math.floor(Math.random() * (99 - 85 + 1)) + 85;
+    
+    // Simulated Sentiment for Card
+    const sentiments = [
+        { label: "Positive", color: "text-emerald-400", border: "border-emerald-500/30" },
+        { label: "Neutral", color: "text-blue-400", border: "border-blue-500/30" },
+        { label: "Analytical", color: "text-primary", border: "border-primary/30" }
+    ];
+    const cardSentiment = sentiments[Math.floor(Math.random() * sentiments.length)];
+
 
     // Helper functions for stars
     const renderStars = (ratingValue) => {
@@ -63,6 +72,13 @@ function NewsCard({ news }) {
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
             <span className="text-[10px] uppercase tracking-wider font-bold text-primary">Core AI Verified</span>
         </div>
+
+        {/* Sentiment Badge Overlay */}
+        <div className={`absolute bottom-5 left-7 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border ${cardSentiment.border} flex items-center gap-2 z-10 shadow-lg`}>
+            <span className={`w-1.5 h-1.5 rounded-full bg-current ${cardSentiment.color}`}></span>
+            <span className={`text-[10px] uppercase tracking-wider font-bold ${cardSentiment.color}`}>{cardSentiment.label} Analysis</span>
+        </div>
+
         
         <div className="absolute inset-x-5 inset-y-3 bg-gradient-to-t from-base-100 via-transparent to-transparent z-0 rounded-xl"></div>
         <div className="absolute inset-0 bg-primary/10 mix-blend-overlay pointer-events-none rounded-xl transition-all duration-500 group-hover:bg-primary/20"></div>

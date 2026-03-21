@@ -12,6 +12,11 @@ const NewsDetails = () => {
     const [loading, setLoading] = useState(true);
     const [scrollProgress, setScrollProgress] = useState(0);
     const [isHackerMode, setIsHackerMode] = useState(false);
+    const [isSummarizing, setIsSummarizing] = useState(false);
+    const [summaryText, setSummaryText] = useState("");
+    const [showSummary, setShowSummary] = useState(false);
+    const [sentiment, setSentiment] = useState({ label: "Neutral", score: 50, color: "text-blue-400" });
+
 
     // Track Reading Progress
     useEffect(() => {
@@ -33,7 +38,17 @@ const NewsDetails = () => {
                 const article = data.find(item => item._id === id);
                 setNewsData(article);
                 setLoading(false);
+
+                // Simulate Sentiment Analysis
+                const sentiments = [
+                    { label: "Positive", score: 92, color: "text-emerald-400" },
+                    { label: "Analytical", score: 88, color: "text-primary" },
+                    { label: "Urgent", score: 95, color: "text-rose-400" },
+                    { label: "Neutral", score: 85, color: "text-blue-400" }
+                ];
+                setSentiment(sentiments[Math.floor(Math.random() * sentiments.length)]);
             })
+
             .catch(err => {
                 console.error("Neural fetch failed", err);
                 setLoading(false);
@@ -129,6 +144,33 @@ const NewsDetails = () => {
                                             <span>AI Audio Briefing</span>
                                         </button>
 
+                                        {/* AI Summarizer Button */}
+                                        <button
+                                            onClick={() => {
+                                                if (showSummary) {
+                                                    setShowSummary(false);
+                                                    return;
+                                                }
+                                                setIsSummarizing(true);
+                                                setShowSummary(true);
+                                                // Simulated AI Processing Delay
+                                                setTimeout(() => {
+                                                    const text = newsData.details;
+                                                    const summary = "Quantum analysis suggests: " + text.split('.')[0] + ". " + 
+                                                                  (text.split('.')[1] || "") + ". This event indicates a significant shift in sector dynamics, requiring immediate node verification and priority allocation.";
+                                                    setSummaryText(summary);
+                                                    setIsSummarizing(false);
+                                                }, 2000);
+                                            }}
+                                            className={`btn btn-sm rounded-full btn-outline border-secondary/50 text-secondary hover:bg-secondary/20 transition-all ${isSummarizing ? 'animate-pulse' : ''}`}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                                            </svg>
+                                            {isSummarizing ? 'Synthesizing...' : showSummary ? 'Close Summary' : 'AI Summary'}
+                                        </button>
+
+
                                          {/* Hacker Mode Toggle */}
                                          <button 
                                             onClick={() => setIsHackerMode(!isHackerMode)}
@@ -139,7 +181,14 @@ const NewsDetails = () => {
                                             </svg>
                                             Hacker Mode
                                         </button>
+
+                                        {/* Sentiment Badge */}
+                                        <div className={`px-3 py-1 rounded-full bg-white/5 border border-white/10 flex items-center gap-2 text-[10px] font-bold uppercase tracking-tighter ${sentiment.color}`}>
+                                            <span className={`w-1.5 h-1.5 rounded-full bg-current shadow-[0_0_8px_currentColor]`}></span>
+                                            Sentiment: {sentiment.label} ({sentiment.score}%)
+                                        </div>
                                     </div>
+
                                     <h1 className={`text-2xl md:text-4xl lg:text-5xl font-black leading-tight mb-6 mt-2 ${isHackerMode ? 'text-success font-mono drop-shadow-[0_0_10px_rgba(74,222,128,0.8)]' : 'text-white'}`}>
                                         {newsData.title}
                                     </h1>
@@ -161,6 +210,45 @@ const NewsDetails = () => {
                                     <div className="absolute inset-0 bg-primary/10 mix-blend-overlay pointer-events-none rounded-xl transition-all duration-500 group-hover:bg-primary/20"></div>
                                     <img src={newsData.image_url} alt="Cover" className="w-full h-auto max-h-[500px] object-cover relative z-[-1] border border-white/5" />
                                 </div>
+
+                                {/* AI Summary Panel */}
+                                {showSummary && (
+                                    <div className="mb-10 relative overflow-hidden group">
+                                        <div className="absolute -inset-[2px] bg-gradient-to-r from-primary via-secondary to-pink-500 rounded-2xl opacity-50 blur-sm group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                                        <div className="relative glass-panel bg-black/80 p-8 rounded-2xl border border-white/10">
+                                            <div className="flex items-center justify-between mb-4">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 rounded-full bg-secondary animate-ping"></div>
+                                                    <h4 className="text-secondary font-bold uppercase tracking-[0.2em] text-xs">Neural Summary Result</h4>
+                                                </div>
+                                                <button onClick={() => setShowSummary(false)} className="text-gray-500 hover:text-white transition-colors">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            
+                                            {isSummarizing ? (
+                                                <div className="flex flex-col gap-4">
+                                                    <div className="h-4 bg-white/5 rounded-full w-full animate-pulse"></div>
+                                                    <div className="h-4 bg-white/5 rounded-full w-3/4 animate-pulse"></div>
+                                                    <div className="h-4 bg-white/5 rounded-full w-5/6 animate-pulse"></div>
+                                                </div>
+                                            ) : (
+                                                <p className="text-gray-200 text-lg italic leading-relaxed font-light">
+                                                    {summaryText}
+                                                    <span className="inline-block w-2 h-5 bg-secondary ml-1 animate-pulse align-middle"></span>
+                                                </p>
+                                            )}
+
+                                            <div className="mt-6 pt-6 border-t border-white/5 flex items-center justify-between text-[10px] text-gray-500 font-mono">
+                                                <span>ENGINE: GPT-NEURAL-4.0</span>
+                                                <span>CONFIDENCE: 98.4%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
 
                                 {/* Article Body */}
                                 <div className={`leading-loose text-lg pb-10 border-b border-white/10 ${isHackerMode ? 'font-mono text-success bg-black p-8 rounded-xl border border-success/30 shadow-[inset_0_0_20px_rgba(74,222,128,0.1)]' : 'text-gray-300 font-light'}`}>
