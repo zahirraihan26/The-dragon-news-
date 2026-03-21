@@ -6,16 +6,17 @@ const useWeather = () => {
     const [error, setError] = useState(null);
     const [location, setLocation] = useState({ city: "Dhaka", isDefault: true });
 
-    const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
     const fetchWeather = async (lat, lon, city = null) => {
         try {
             setLoading(true);
-            let url = `https://api.openweathermap.org/data/2.5/weather?units=metric&appid=${API_KEY}`;
+            let url = `${API_BASE_URL}/api/weather?`;
+            
             if (lat && lon) {
-                url += `&lat=${lat}&lon=${lon}`;
-            } else if (city) {
-                url += `&q=${city}`;
+                url += `lat=${lat}&lon=${lon}`;
+            } else {
+                url += `city=${city || 'Dhaka'}`;
             }
 
             const response = await fetch(url);
@@ -33,12 +34,6 @@ const useWeather = () => {
     };
 
     useEffect(() => {
-        if (!API_KEY) {
-            setError("API Key Missing");
-            setLoading(false);
-            return;
-        }
-
         // Try to get user location
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
@@ -66,7 +61,7 @@ const useWeather = () => {
         }, 600000); // 10 mins
 
         return () => clearInterval(interval);
-    }, [API_KEY, location.city, weather]);
+    }, [location.city, weather]);
 
     return { weather, loading, error, location };
 };
