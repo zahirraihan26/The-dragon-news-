@@ -46,8 +46,9 @@ const NewsDetails = () => {
         // Since NewsAPI doesn't have "get by ID", we'll fetch general news and try to find it,
         // or just fetch 'general' and take the first one as a fallback for the demo.
         setLoading(true);
-        fetchNews('0') // Fetch 'All News'
-            .then(articles => {
+        fetchNews('0', 1, 100) // Fetch 'All News' with a larger pool for finding the ID
+            .then(res => {
+                const articles = res.data || [];
                 const article = articles.find(item => item._id === id) || articles[0];
                 setNewsData(article);
                 setLoading(false);

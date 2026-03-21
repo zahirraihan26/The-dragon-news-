@@ -5,45 +5,63 @@ import SkeletonLoader from '../Component/SkeletonLoader';
 
 const Categorynews = () => {
     const { id } = useParams()
-    const data = useLoaderData()
-    const [categoryNews, setcategoryNews] = useState([])
+    const initialData = useLoaderData()
+    const [newsResponse, setNewsResponse] = useState({ data: [], total: 0, page: 1, limit: 10 });
     const [isFetching, setIsFetching] = useState(true);
     
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 6;
+    const itemsPerPage = 10; // User wants 10
 
     useEffect(() => {
         setIsFetching(true);
-        setcategoryNews(data);
-        setCurrentPage(1); // Reset to page 1 on category change
+        // initialData is now { data, total, page, limit } or []
+        setNewsResponse(initialData);
+        // If it's the first load of a category, reset to page 1
+        setCurrentPage(1);
 
         const timer = setTimeout(() => {
             setIsFetching(false);
         }, 800);
 
         return () => clearTimeout(timer);
-    }, [data, id])
+    }, [id, initialData])
     
-    // Calculate pagination slices
-    const totalPages = Math.ceil(categoryNews.length / itemsPerPage);
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentNews = categoryNews.slice(indexOfFirstItem, indexOfLastItem);
+    // Pagination data from response
+    // Handle case where newsResponse might be an array (old format/cache) or missing data property
+    const { data: allNews = [], total: serverTotal = 0 } = Array.isArray(newsResponse) 
+        ? { data: newsResponse, total: newsResponse.length } 
+        : (newsResponse || {});
 
-    const handlePageChange = (pageNumber) => {
+    // FALLBACK: If the server sent all data instead of a slice, we slice it ourselves
+    const currentNews = allNews.length > itemsPerPage 
+        ? allNews.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+        : allNews;
+
+    const total = serverTotal || allNews.length;
+    const totalPages = Math.ceil((total || 0) / itemsPerPage) || 0;
+
+    const handlePageChange = async (pageNumber) => {
         setIsFetching(true);
         setCurrentPage(pageNumber);
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => setIsFetching(false), 500);
+        
+        try {
+            const response = await fetchNews(id, pageNumber, itemsPerPage);
+            setNewsResponse(response);
+        } catch (error) {
+            console.error("Failed to fetch next page:", error);
+        } finally {
+            setIsFetching(false);
+        }
     };
 
     return (
         <div className="mt-4 pb-12">
           <div className="flex justify-between items-center border-b border-primary/20 pb-4 mb-6">
               <h2 className='font-semibold text-gray-300 text-lg'>
-                  Total <span className='text-primary font-bold px-2 py-1 bg-primary/10 rounded-md border border-primary/20'>{categoryNews.length}</span> news found
+                  Total <span className='text-primary font-bold px-2 py-1 bg-primary/10 rounded-md border border-primary/20'>{total}</span> news found
               </h2>
-              {categoryNews.length > 0 && (
+              {total > 0 && (
                   <span className="text-sm text-gray-500 font-mono">
                       Page {currentPage} of {totalPages}
                   </span>
@@ -65,7 +83,7 @@ const Categorynews = () => {
           )}
           
           {/* Neural Pagination UI */}
-          {!isFetching && categoryNews.length > itemsPerPage && (
+          {!isFetching && total > itemsPerPage && (
               <div className="flex justify-center items-center gap-3 mt-12 mb-6">
                   <button 
                       disabled={currentPage === 1}
@@ -97,7 +115,7 @@ const Categorynews = () => {
               </div>
           )}
           
-          {categoryNews.length === 0 && (
+          {total === 0 && !isFetching && (
               <div className="glass-panel p-10 text-center border-dashed border-white/20">
                   <h3 className="text-xl font-bold text-gray-400 mb-2">No data streams detected</h3>
                   <p className="text-gray-500">The neural network could not find any articles matching this category.</p>

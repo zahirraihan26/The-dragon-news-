@@ -26,7 +26,7 @@ const router = createBrowserRouter(
                 {
                     path:'/category/:id',
                     element:<Categorynews></Categorynews>,
-                    loader: ({ params }) => fetchNews(params.id),
+                    loader: ({ params }) => fetchNews(params.id, 1, 10),
                 }
             ]
         },
