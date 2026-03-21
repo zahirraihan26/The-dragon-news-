@@ -105,7 +105,11 @@ function NewsCard({ news }) {
 
         <p className="text-sm text-gray-400 leading-relaxed mb-3">
           {details.slice(0, 150)}...
-          <Link to={`/news/${_id}`} className="glow-text font-bold cursor-pointer ml-2 hover:text-secondary transition-colors">
+          <Link 
+            to={`/news/${_id}`} 
+            state={{ news }}
+            className="glow-text font-bold cursor-pointer ml-2 hover:text-secondary transition-colors"
+          >
             Read Full Article
           </Link>
         </p>
@@ -124,7 +128,7 @@ function NewsCard({ news }) {
             />
           ))}
           <span className="ml-2 text-gray-300 font-medium">
-            {rating.number.toFixed(1)}
+            {Number(rating.number).toFixed(1)}
           </span>
         </div>
 

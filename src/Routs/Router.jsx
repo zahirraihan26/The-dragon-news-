@@ -11,13 +11,13 @@ import About from "../Pages/About";
 import Career from "../Pages/Career";
 import ProfileDashboard from "../Pages/ProfileDashboard";
 import SearchPage from "../Pages/SearchPage";
+import { fetchNews } from "../utils/newsApi";
 
 const router = createBrowserRouter(
     [
         {
             path: '/',
             element: <HomeLaout></HomeLaout>,
-
             children:[
                 {
                     path:'',
@@ -26,13 +26,11 @@ const router = createBrowserRouter(
                 {
                     path:'/category/:id',
                     element:<Categorynews></Categorynews>,
-                    loader: () => fetch("/news.json"),
-
+                    loader: ({ params }) => fetchNews(params.id),
                 }
             ]
-
         },
-         {
+        {
             path: '/auth',
             element: <AuthLaout></AuthLaout>,
             children:[
@@ -45,32 +43,31 @@ const router = createBrowserRouter(
                     element:<Register></Register>
                 },
             ]
-
         },
-         {
+        {
             path: '/news/:id',
             element: <NewsDetails></NewsDetails>
         },
-         {
+        {
             path: '/about',
             element: <About></About>
         },
-         {
+        {
             path: '/career',
             element: <Career></Career>
         },
-         {
+        {
             path: '/dashboard',
             element: <ProfileDashboard></ProfileDashboard>
         },
-         {
+        {
             path: '/search',
             element: <SearchPage></SearchPage>
         },
-         {
+        {
             path: '/*',
             element: <ErrorPage></ErrorPage>
         },
-    ])
+    ]);
 
-    export default router
+export default router;

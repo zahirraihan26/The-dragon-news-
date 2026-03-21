@@ -14,17 +14,8 @@ const Categorynews = () => {
 
     useEffect(() => {
         setIsFetching(true);
-        if (id === '08' || id == '0') {
-            setcategoryNews(data)
-        }
-        else if (id === '01' || id == '1') {
-            const filtereNews = data.filter(news => news.others.is_today_pick === true || news.others.is_trending === true)
-            setcategoryNews(filtereNews)
-        }
-        else {
-            const filtereNews = data.filter(news => news.category_id === parseInt(id, 10))
-            setcategoryNews(filtereNews)
-        }
+        // API already filters by category, no need for complex manual filtering
+        setcategoryNews(data);
         
         // Reset limit when category changes
         setDisplayLimit(6);
@@ -32,7 +23,7 @@ const Categorynews = () => {
         // Simulate network/AI processing delay for premium UI feel
         const timer = setTimeout(() => {
             setIsFetching(false);
-        }, 1200);
+        }, 800);
 
         return () => clearTimeout(timer);
     }, [data, id])

@@ -5,10 +5,15 @@ import RightAsid from '../Component/Homelaout/RightAsid';
 import AIFooter from '../Component/AIFooter';
 import AIAssistant from '../Component/AIAssistant';
 import BackToTop from '../Component/BackToTop';
+import { fetchNews } from '../utils/newsApi';
+import { useLocation } from 'react-router';
+
 
 const NewsDetails = () => {
     const { id } = useParams();
-    const [newsData, setNewsData] = useState(null);
+    const location = useLocation();
+    const [newsData, setNewsData] = useState(location.state?.news || null);
+
     const [loading, setLoading] = useState(true);
     const [scrollProgress, setScrollProgress] = useState(0);
     const [isHackerMode, setIsHackerMode] = useState(false);
@@ -31,11 +36,19 @@ const NewsDetails = () => {
     }, []);
 
     useEffect(() => {
-        // We fetch the core news file, then find the specific article
-        fetch('/news.json')
-            .then(res => res.json())
-            .then(data => {
-                const article = data.find(item => item._id === id);
+        // If we already have newsData from location state, just set loading to false
+        if (newsData && newsData._id === id) {
+            setLoading(false);
+            return;
+        }
+
+        // Otherwise, we need to fetch it.
+        // Since NewsAPI doesn't have "get by ID", we'll fetch general news and try to find it,
+        // or just fetch 'general' and take the first one as a fallback for the demo.
+        setLoading(true);
+        fetchNews('0') // Fetch 'All News'
+            .then(articles => {
+                const article = articles.find(item => item._id === id) || articles[0];
                 setNewsData(article);
                 setLoading(false);
 
@@ -48,12 +61,12 @@ const NewsDetails = () => {
                 ];
                 setSentiment(sentiments[Math.floor(Math.random() * sentiments.length)]);
             })
-
             .catch(err => {
                 console.error("Neural fetch failed", err);
                 setLoading(false);
             });
-    }, [id]);
+    }, [id, newsData]);
+
 
     return (
         <div className="relative min-h-screen overflow-x-hidden text-gray-200 selection:bg-primary/30 selection:text-white pb-0 neon-grid">
@@ -250,11 +263,37 @@ const NewsDetails = () => {
                                 )}
 
 
-                                {/* Article Body */}
+                                { /* Article Body with Truncation Handling */ }
                                 <div className={`leading-loose text-lg pb-10 border-b border-white/10 ${isHackerMode ? 'font-mono text-success bg-black p-8 rounded-xl border border-success/30 shadow-[inset_0_0_20px_rgba(74,222,128,0.1)]' : 'text-gray-300 font-light'}`}>
                                     {newsData.details.split('\n').map((paragraph, idx) => (
-                                        <p key={idx} className="mb-6">{paragraph}{isHackerMode && idx === newsData.details.split('\n').length - 1 && <span className="animate-pulse bg-success w-3 h-5 inline-block ml-1 align-sub"></span>}</p>
+                                        <p key={idx} className="mb-6">
+                                            {paragraph.includes('[+') ? paragraph.split('[+')[0] : paragraph}
+                                            {isHackerMode && idx === newsData.details.split('\n').length - 1 && <span className="animate-pulse bg-success w-3 h-5 inline-block ml-1 align-sub"></span>}
+                                        </p>
                                     ))}
+
+                                    {/* Link to source for full article */}
+                                    <div className="mt-4 p-6 rounded-2xl bg-primary/5 border border-primary/20 backdrop-blur-sm relative overflow-hidden group">
+                                        <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+                                        <h4 className="text-primary font-bold uppercase tracking-widest text-xs mb-3 flex items-center gap-2">
+                                            <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+                                            Neural Link Established
+                                        </h4>
+                                        <p className="text-sm text-gray-400 mb-6 italic">
+                                            The neural cache contains a partial data stream. For the complete unencrypted record, establish a direct link to the origin server.
+                                        </p>
+                                        <a 
+                                            href={newsData.source_url} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="btn btn-primary shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] border-none px-8 rounded-xl transition-all hover:scale-105"
+                                        >
+                                            Read Full Story at Source
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 ml-2">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                                            </svg>
+                                        </a>
+                                    </div>
                                 </div>
 
                                 {/* Nav Actions */}
