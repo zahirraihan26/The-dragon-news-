@@ -18,29 +18,29 @@ const router = createBrowserRouter(
         {
             path: '/',
             element: <HomeLaout></HomeLaout>,
-            children:[
+            children: [
                 {
-                    path:'',
-                    element:<Home></Home>
+                    path: '',
+                    element: <Home></Home>
                 },
                 {
-                    path:'/category/:id',
-                    element:<Categorynews></Categorynews>,
-                    loader: ({ params }) => fetchNews(params.id, 1, 10),
+                    path: '/category/:id',
+                    element: <Categorynews></Categorynews>,
+                    loader: ({ params }) => fetchNews(params.id, 1, 6),
                 }
             ]
         },
         {
             path: '/auth',
             element: <AuthLaout></AuthLaout>,
-            children:[
+            children: [
                 {
                     path: '/auth/login',
-                    element:<Login></Login>
+                    element: <Login></Login>
                 },
                 {
                     path: '/auth/register',
-                    element:<Register></Register>
+                    element: <Register></Register>
                 },
             ]
         },
